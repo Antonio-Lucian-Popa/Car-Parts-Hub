@@ -9,6 +9,8 @@ import { HomeComponent } from './core/home/home.component';
 import { CollectionSectionComponent } from './feature/collection-section/collection-section.component';
 import { ProductFeaturesSectionComponent } from './feature/product-features-section/product-features-section.component';
 import { FooterComponent } from './core/footer/footer.component';
+import { SharedModule } from './shared/shared.module';
+
 
 @NgModule({
   declarations: [
@@ -18,11 +20,12 @@ import { FooterComponent } from './core/footer/footer.component';
     HomeComponent,
     CollectionSectionComponent,
     ProductFeaturesSectionComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

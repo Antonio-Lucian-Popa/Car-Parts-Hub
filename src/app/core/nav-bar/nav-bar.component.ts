@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class NavBarComponent {
 
-  isMenuOpen = true;
+  isMenuOpen = false;
 
   closeMenu(): void {
     this.isMenuOpen = false;
