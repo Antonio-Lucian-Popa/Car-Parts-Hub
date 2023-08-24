@@ -4,7 +4,7 @@
 
     Off-canvas menu for mobile, show/hide based on off-canvas menu state.
   -->
-  <div class="relative z-40 lg:hidden" role="dialog" aria-modal="true">
+  <div class="relative z-40 lg:hidden" role="dialog" aria-modal="true" *ngIf="isMenuOpen">
     <!--
       Off-canvas menu backdrop, show/hide based on off-canvas menu state.
 
@@ -296,7 +296,7 @@
       <div class="border-b border-gray-200">
         <div class="flex h-16 items-center">
           <!-- Mobile menu toggle, controls the 'mobileMenuOpen' state. -->
-          <button type="button" class="relative rounded-md bg-white p-2 text-gray-400 lg:hidden">
+          <button type="button" class="relative rounded-md bg-white p-2 text-gray-400 lg:hidden" (click)="isMenuOpen = !isMenuOpen">
             <span class="absolute -inset-0.5"></span>
             <span class="sr-only">Open menu</span>
             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -307,9 +307,9 @@
 
           <!-- Logo -->
           <div class="ml-4 flex lg:ml-0">
-            <a href="#">
-              <span class="sr-only">Your Company</span>
-              <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="">
+            <a class="w-16 sm:w-28 md:w-28 lg:w-28">
+              <!-- <span class="sr-only">Your Company</span> -->
+              <img class="w-auto" src="./assets/logo/logo.png" alt="">
             </a>
           </div>
 
