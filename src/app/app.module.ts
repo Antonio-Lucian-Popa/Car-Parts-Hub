@@ -10,6 +10,7 @@ import { CollectionSectionComponent } from './feature/collection-section/collect
 import { ProductFeaturesSectionComponent } from './feature/product-features-section/product-features-section.component';
 import { FooterComponent } from './core/footer/footer.component';
 import { SharedModule } from './shared/shared.module';
+import {HttpClientModule} from '@angular/common/http';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { SharedModule } from './shared/shared.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

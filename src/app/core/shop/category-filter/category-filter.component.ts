@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Brand } from 'src/app/shared/interfaces/brand';
 import { Category } from 'src/app/shared/interfaces/category';
 
@@ -7,16 +8,36 @@ import { Category } from 'src/app/shared/interfaces/category';
   templateUrl: './category-filter.component.html',
   styleUrls: ['./category-filter.component.scss']
 })
-export class CategoryFilterComponent implements OnInit{
+export class CategoryFilterComponent implements OnInit {
+
+  // userForm = this.fb.group({
+  //   categoriesSelected: new FormArray([]),
+  //   brandsSelected: new FormArray([])
+  // });
+
+  // Create a FormGroup to manage the dynamic checkboxes
+  userForm!: FormGroup;
 
   categories: Category[] = [];
-
+  // Is the category that user select
+  categoriesSelected: string[] = [];
   brands: Brand[] = [];
+  // Is the brand that user select
+  brandsSelected: string[] = [];
 
   isDropdownVisible: boolean = false;
 
+  isLoading = true;
+
+
+  constructor(private fb: FormBuilder) { }
+
 
   ngOnInit(): void {
+
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 2000);
     const resultBrand: Brand[] = [
       {
         id: "23",
@@ -33,18 +54,18 @@ export class CategoryFilterComponent implements OnInit{
     ];
 
     const resultCategory: Category[] = [
-        {
-          id: "1",
-          name: "Oil and filters"
-        },
-        {
-          id: "2",
-          name: "Brakes"
-        },
-        {
-          id: "3",
-          name: "Tires"
-        }
+      {
+        id: "1",
+        name: "Oil and filters"
+      },
+      {
+        id: "2",
+        name: "Brakes"
+      },
+      {
+        id: "3",
+        name: "Tires"
+      }
     ];
 
 
@@ -55,5 +76,35 @@ export class CategoryFilterComponent implements OnInit{
     // assign the sorted arrays
     this.categories = resultCategory;
     this.brands = resultBrand;
+
+    // Initialize the form controls and their initial values
+    this.userForm = this.fb.group({
+      // Create a FormArray for the categories checkboxes
+      categories: this.buildCheckboxes(this.categories),
+      // Create a FormArray for the brands checkboxes
+      brands: this.buildCheckboxes(this.brands)
+    });
   }
+
+  // Helper method to create and initialize the FormArray for checkboxes
+  buildCheckboxes(items: any[]) {
+    const checkboxArray = items.map(() => this.fb.control(false));
+    return this.fb.array(checkboxArray);
+  }
+
+  onCheckChange(event: any) {
+    const selectedCategories: string[] = this.userForm.value.categories
+      .map((isChecked: boolean, index: number) => isChecked ? (this.categories[index] as Category).id : null)
+      .filter((id: number | null) => id !== null) as string[];
+
+    const selectedBrands: string[] = this.userForm.value.brands
+      .map((isChecked: boolean, index: number) => isChecked ? (this.brands[index] as Brand).id : null)
+      .filter((id: number | null) => id !== null) as string[];
+
+    if (selectedCategories.length > 0 || selectedBrands.length > 0) {
+      this.categoriesSelected = selectedCategories;
+      this.brandsSelected = selectedBrands;
+    }
+  }
+
 }

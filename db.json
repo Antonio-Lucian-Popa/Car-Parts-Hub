@@ -1,0 +1,52 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "title": "TRIPLE QX SynPlus 5W-30 Engine Oil GM not Low SAPS -5Ltr",
+      "description": "typicode",
+      "price": "14.99",
+      "brand": "OTHER",
+      "category": "OIL",
+      "images": [
+        "./assets/img/oil-img.jpg"
+      ],
+      "quantity": 50
+    },
+    {
+      "id": "2",
+      "title": "Sport air filter BMW 5 (F10, F11, F18) 520 d BMC Filter",
+      "description": "typicode",
+      "price": "74.00",
+      "brand": "BMW",
+      "category": "FILTER",
+      "images": [
+        "./assets/img/sport-filter-img-2.PNG"
+      ],
+      "quantity": 12
+    },
+    {
+      "id": "3",
+      "title": "Milltek Alfa Romeo Giulia 2.0T Veloce (Non Q4 Models & Non OPF/GPF Models) 2017-2023 Cat-back Exhaust",
+      "description": "typicode",
+      "price": "1.200.00",
+      "brand": "ALFA",
+      "category": "EXHAUST",
+      "images": [
+        "./assets/img/exhaust-img.PNG"
+      ],
+      "quantity": 12
+    },
+    {
+      "id": "4",
+      "title": "BMW M5 (F90) M PERFORMANCE STYLE CARBON FIBRE FULL KIT",
+      "description": "typicode",
+      "price": "2.450.00",
+      "brand": "BMW",
+      "category": "BODY_KIT",
+      "images": [
+        "./assets/img/body-kit-img.PNG"
+      ],
+      "quantity": 12
+    }
+  ]
+}
