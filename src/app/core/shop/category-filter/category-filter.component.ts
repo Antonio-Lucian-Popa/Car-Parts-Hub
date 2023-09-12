@@ -41,7 +41,7 @@ export class CategoryFilterComponent implements OnInit {
     const resultBrand: Brand[] = [
       {
         id: "23",
-        name: "Bmw"
+        name: "BMW"
       },
       {
         id: "24",
@@ -56,7 +56,7 @@ export class CategoryFilterComponent implements OnInit {
     const resultCategory: Category[] = [
       {
         id: "1",
-        name: "Oil and filters"
+        name: "OIL"
       },
       {
         id: "2",
@@ -86,6 +86,14 @@ export class CategoryFilterComponent implements OnInit {
     });
   }
 
+  totalPages = 0;
+  currentPage = 0;
+
+  onRecalculateListProduct($event: any) {
+    this.totalPages = $event.totalPages;
+    this.currentPage = $event.currentPage;
+  }
+
   // Helper method to create and initialize the FormArray for checkboxes
   buildCheckboxes(items: any[]) {
     const checkboxArray = items.map(() => this.fb.control(false));
@@ -102,8 +110,18 @@ export class CategoryFilterComponent implements OnInit {
       .filter((id: number | null) => id !== null) as string[];
 
     if (selectedCategories.length > 0 || selectedBrands.length > 0) {
-      this.categoriesSelected = selectedCategories;
-      this.brandsSelected = selectedBrands;
+      this.categoriesSelected = selectedCategories.map(id => {
+        const category = this.categories.find(category => id === category.id);
+        return category ? category.name.toLocaleUpperCase() : '';
+      });
+      this.brandsSelected = selectedBrands.map(id => {
+        const brand = this.brands.find(brand => id === brand.id);
+        return brand ? brand.name.toLocaleUpperCase() : '';
+      });
+
+    } else if (selectedCategories.length === 0 || selectedBrands.length === 0) {
+      this.categoriesSelected = [];
+      this.brandsSelected = [];
     }
   }
 

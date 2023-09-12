@@ -85,7 +85,7 @@
               <div class="pt-6" id="filter-section-mobile-0">
                 <div class="space-y-6">
                   <div class="flex items-center" *ngFor="let category of categories">
-                    <input id="filter-mobile-color-0" name="color[]" [value]="category.name" type="checkbox"
+                    <input id="filter-mobile-color-0" name="color[]" [value]="category.name" type="checkbox" (click)="onCheckChange($event)"
                       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
                     <label for="filter-mobile-color-0"
                       class="ml-3 min-w-0 flex-1 text-gray-500">{{category.name}}</label>
@@ -118,7 +118,7 @@
               <div class="pt-6" id="filter-section-mobile-1">
                 <div class="space-y-6">
                   <div class="flex items-center" *ngFor="let brand of brands">
-                    <input id="filter-mobile-category-0" name="category[]" [value]="brand.name" type="checkbox"
+                    <input id="filter-mobile-category-0" name="category[]" [value]="brand.name" type="checkbox" (click)="onCheckChange($event)"
                       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
                     <label for="filter-mobile-category-0"
                       class="ml-3 min-w-0 flex-1 text-gray-500">{{brand.name}}</label>
@@ -302,16 +302,16 @@
           <!-- Product grid -->
           <div class="lg:col-span-3">
             <!-- Your content -->
-            <app-product-list [categories]="categoriesSelected" [brands]="brandsSelected"></app-product-list>
+            <app-product-list [categories]="categoriesSelected" [brands]="brandsSelected" (recalculateListProduct)="onRecalculateListProduct($event)"></app-product-list>
             <div class="flex justify-center">
               <!-- Previous Button -->
-              <a href="#" class="flex items-center justify-center px-4 h-10 mr-3 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+              <a href="#" *ngIf="totalPages >= currentPage + 1" class="flex items-center justify-center px-4 h-10 mr-3 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                 <svg class="w-3.5 h-3.5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"/>
                 </svg>
                 Previous
               </a>
-              <a href="#" class="flex items-center justify-center px-4 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+              <a href="#" *ngIf="totalPages > currentPage" class="flex items-center justify-center px-4 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                 Next
                 <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>

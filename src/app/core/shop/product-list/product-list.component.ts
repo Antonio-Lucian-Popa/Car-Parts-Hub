@@ -1,6 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Brand } from 'src/app/shared/interfaces/brand';
-import { Category } from 'src/app/shared/interfaces/category';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Product } from 'src/app/shared/interfaces/product';
 import { ProductService } from 'src/app/shared/services/product.service';
 
@@ -9,37 +7,68 @@ import { ProductService } from 'src/app/shared/services/product.service';
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss']
 })
-export class ProductListComponent implements OnInit{
+export class ProductListComponent implements OnInit, OnChanges {
 
- //@Input() categories: Category[] = [];
+  //@Input() categories: Category[] = [];
 
- @Input() set categories(value: string[]) {
-  this.category = value;
-  this.findAllProducts();
-}
+  @Input() categories: string[] = [];
 
-@Input() set brands(value: string[]) {
-  this.brand = value;
-  this.findAllProducts();
-}
+  @Input() brands: string[] = [];
 
-// @Input() brands: Brand[] = [];
+  @Output() recalculateListProduct = new EventEmitter();
 
- category: string[] = [];
- brand: string[] = [];
+  // @Input() brands: Brand[] = [];
 
- productList: Product[] = [];
+  category: string[] = [];
+  brand: string[] = [];
 
- constructor(private productService: ProductService) {}
+  productList: Product[] = [];
 
- ngOnInit(): void {
-}
+  page = 0;
+  size = 10;
+  totalPages = 0;
 
- findAllProducts() {
-  console.log(this.category, this.brand);
-  this.productService.findAll().subscribe(products => {
-    this.productList = products;
-  });
- }
+
+  constructor(private productService: ProductService) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes['brands']);
+    if(changes['brands'].currentValue.length > 0 || changes['categories'].currentValue.length > 0) {
+      this.categories = changes['categories'].currentValue;
+      this.brands = changes['brands'].currentValue;
+      this.findProductsByCategory();
+    } else {
+      this.findAllProducts();
+    }
+  }
+
+  ngOnInit(): void {
+   // this.findAllProducts();
+  }
+
+  findAllProducts() {
+    console.log(this.category, this.brand);
+    this.productService.findAllProducts(this.page, this.size).subscribe(response => {
+      this.productList = response.products;
+      this.page = response.totalPages > response.currentPage ? response.currentPage + 1 : response.currentPage;
+      this.totalPages = response.totalPages;
+      this.recalculateListProduct.emit({
+        totalPages: this.totalPages,
+        currentPage: this.page
+      });
+    });
+  }
+
+  findProductsByCategory() {
+    this.productService.findAllProductsByCategory(this.page, this.size, this.categories, this.brands).subscribe(response => {
+      this.productList = response.products;
+      this.page = response.totalPages > response.currentPage ? response.currentPage + 1 : response.currentPage;
+      this.totalPages = response.totalPages;
+      this.recalculateListProduct.emit({
+        totalPages: this.totalPages,
+        currentPage: this.page
+      });
+    });
+  }
 
 }

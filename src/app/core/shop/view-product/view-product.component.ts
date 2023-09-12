@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/app/shared/interfaces/product';
+import { CartService } from 'src/app/shared/services/cart.service';
 import { ProductService } from 'src/app/shared/services/product.service';
 
 @Component({
@@ -17,14 +18,22 @@ export class ViewProductComponent implements OnInit, OnDestroy{
 
   isLoading = true;
 
-  constructor(private productService: ProductService, private route: ActivatedRoute) { }
+  constructor(
+    private productService: ProductService,
+     private route: ActivatedRoute,
+     private cartService: CartService
+     ) { }
 
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe(params => {
-      const postId = params['id'];
+      const productId = params['id'];
+   //  const productId = "23abec87-2f78-4272-8d9d-73cbe34bdadb";
      // this.findProductDetails(postId);
-      this.isLoading = false;
-      this.productService.findAll().subscribe(res => this.product = res[0]);
+      //this.productService.findAll().subscribe(res => this.product = res[0]);
+      this.productService.findProductById(productId).subscribe(res => {
+        this.product = res;
+        this.isLoading = false;
+      });
     }, err => {
       console.log(err);
       this.isLoading = true;
@@ -36,6 +45,16 @@ export class ViewProductComponent implements OnInit, OnDestroy{
     //   this.product = product;
     //   this.isLoading = false;
     // });
+  }
+
+  addItemOnCart(): void {
+    this.cartService.addToCart({
+      id: this.product.id,
+      name: this.product.title,
+      price: this.product.price,
+      quantity: 1,
+      image: this.product.images[0]
+    });
   }
 
   ngOnDestroy() {
