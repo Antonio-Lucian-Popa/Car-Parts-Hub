@@ -29,6 +29,8 @@ export class CategoryFilterComponent implements OnInit {
 
   isLoading = true;
 
+  sortType = '';
+
 
   constructor(private fb: FormBuilder) { }
 
@@ -123,6 +125,10 @@ export class CategoryFilterComponent implements OnInit {
       this.categoriesSelected = [];
       this.brandsSelected = [];
     }
+  }
+
+  sortItems(sortType: string) {
+    this.sortType = sortType;
   }
 
 }

@@ -171,16 +171,14 @@
 
                   Selected: "font-medium text-gray-900", Not Selected: "text-gray-500"
                 -->
-                <a href="#" class="font-medium text-gray-900 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                  id="menu-item-0">Most Popular</a>
-                <a href="#" class="text-gray-500 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                  id="menu-item-1">Best Rating</a>
-                <a href="#" class="text-gray-500 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                  id="menu-item-2">Newest</a>
-                <a href="#" class="text-gray-500 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                  id="menu-item-3">Price: Low to High</a>
-                <a href="#" class="text-gray-500 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                  id="menu-item-4">Price: High to Low</a>
+                <!-- <a class="font-medium text-gray-900 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                  id="menu-item-0" (click)="sortItems('popular')">Most Popular</a> -->
+                <a class="text-gray-500 block px-4 py-2 text-sm cursor-pointer" role="menuitem" tabindex="-1"
+                  id="menu-item-2" (click)="sortItems('new')">Newest</a>
+                <a class="text-gray-500 block px-4 py-2 text-sm cursor-pointer" role="menuitem" tabindex="-1"
+                  id="menu-item-3" (click)="sortItems('lowPrice')">Price: Low to High</a>
+                <a class="text-gray-500 block px-4 py-2 text-sm cursor-pointer" role="menuitem" tabindex="-1"
+                  id="menu-item-4" (click)="sortItems('highPrice')">Price: High to Low</a>
               </div>
             </div>
           </div>
@@ -302,7 +300,7 @@
           <!-- Product grid -->
           <div class="lg:col-span-3">
             <!-- Your content -->
-            <app-product-list [categories]="categoriesSelected" [brands]="brandsSelected" (recalculateListProduct)="onRecalculateListProduct($event)"></app-product-list>
+            <app-product-list [sortType]="sortType" [categories]="categoriesSelected" [brands]="brandsSelected" (recalculateListProduct)="onRecalculateListProduct($event)"></app-product-list>
             <div class="flex justify-center">
               <!-- Previous Button -->
               <a href="#" *ngIf="totalPages >= currentPage + 1" class="flex items-center justify-center px-4 h-10 mr-3 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">

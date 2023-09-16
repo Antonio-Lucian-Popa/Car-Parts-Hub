@@ -15,6 +15,10 @@ export class ProductListComponent implements OnInit, OnChanges {
 
   @Input() brands: string[] = [];
 
+  @Input() set sortType(value: string) {
+    this.sortItems(value);
+  }
+
   @Output() recalculateListProduct = new EventEmitter();
 
   // @Input() brands: Brand[] = [];
@@ -32,18 +36,18 @@ export class ProductListComponent implements OnInit, OnChanges {
   constructor(private productService: ProductService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes['brands']);
-    if(changes['brands'].currentValue.length > 0 || changes['categories'].currentValue.length > 0) {
+    console.log(changes['sortType']);
+    if (changes['brands'] && changes['brands'].currentValue.length > 0 || changes['categories'] && changes['categories'].currentValue.length > 0) {
       this.categories = changes['categories'].currentValue;
       this.brands = changes['brands'].currentValue;
       this.findProductsByCategory();
-    } else {
+    } else if(changes['sortType'].currentValue === "") {
       this.findAllProducts();
     }
   }
 
   ngOnInit(): void {
-   // this.findAllProducts();
+    // this.findAllProducts();
   }
 
   findAllProducts() {
@@ -69,6 +73,32 @@ export class ProductListComponent implements OnInit, OnChanges {
         currentPage: this.page
       });
     });
+  }
+
+  sortItems(sortType: string) {
+    console.log(sortType)
+    switch (sortType) {
+      case 'new':
+        this.productList.sort((a, b) => {
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        });
+        break;
+      case 'lowPrice':
+        this.productList.sort((a, b) => {
+          return a.price - b.price;
+        });
+        break;
+      case 'highPrice':
+        this.productList.sort((a, b) => {
+          return b.price - a.price;
+        });
+        break;
+      default:
+        this.productList.sort((a, b) => {
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        });
+        break;
+    }
   }
 
 }

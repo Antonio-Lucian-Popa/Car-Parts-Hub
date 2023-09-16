@@ -9,4 +9,5 @@ export interface Product {
     category: CarCategory;
     images: string[];
     quantity: number;
+    createdAt: string;
 }

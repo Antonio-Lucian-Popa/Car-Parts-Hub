@@ -11,6 +11,10 @@ import { ProductFeaturesSectionComponent } from './feature/product-features-sect
 import { FooterComponent } from './core/footer/footer.component';
 import { SharedModule } from './shared/shared.module';
 import {HttpClientModule} from '@angular/common/http';
+import { SignUpComponent } from './auth/components/sign-up/sign-up.component';
+import { AlertComponent } from './shared/components/alert/alert.component';
+import { LogInComponent } from './auth/components/log-in/log-in.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -22,12 +26,16 @@ import {HttpClientModule} from '@angular/common/http';
     CollectionSectionComponent,
     ProductFeaturesSectionComponent,
     FooterComponent,
+    SignUpComponent,
+    AlertComponent,
+    LogInComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

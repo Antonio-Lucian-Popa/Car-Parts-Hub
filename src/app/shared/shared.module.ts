@@ -5,11 +5,14 @@ import { ProductListComponent } from 'src/app/core/shop/product-list/product-lis
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoaderComponent } from './loader/loader.component';
 import { RouterModule } from '@angular/router';
+import {MatDividerModule} from '@angular/material/divider';
+
 
 
 const NB_MODULES: any[] = [
   ReactiveFormsModule,
-  RouterModule
+  RouterModule,
+  MatDividerModule
 ];
 
 const COMPONENTS: any[] = [
