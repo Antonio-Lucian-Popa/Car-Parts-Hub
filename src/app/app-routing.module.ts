@@ -11,6 +11,10 @@ const routes: Routes = [
     path: 'shop',
     loadChildren: () => import('./core/shop/shop.module').then(m => m.ShopModule)
   },
+  { // TODO: Add gurad to block user to write in the url and access the profile page if is not logged in
+    path: 'profile',
+    loadChildren: () => import('./core/profile/profile.module').then(m => m.ProfileModule)
+  },
   { path: 'signUp', component: SignUpComponent },
   { path: 'logIn', component: LogInComponent },
   // { path: 'second-component', component: SecondComponent },

@@ -12,6 +12,8 @@ export class NavBarComponent implements OnInit{
 
   numberOfItemsInCart = 0;
 
+  isUserAuthenticated = false;
+
   constructor(private cartService: CartService) { }
 
   ngOnInit(): void {
