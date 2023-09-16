@@ -85,7 +85,8 @@
               <div class="pt-6" id="filter-section-mobile-0">
                 <div class="space-y-6">
                   <div class="flex items-center" *ngFor="let category of categories">
-                    <input id="filter-mobile-color-0" name="color[]" [value]="category.name" type="checkbox" (click)="onCheckChange($event)"
+                    <input id="filter-mobile-color-0" name="color[]" [value]="category.name" type="checkbox"
+                      (click)="onCheckChange($event)"
                       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
                     <label for="filter-mobile-color-0"
                       class="ml-3 min-w-0 flex-1 text-gray-500">{{category.name}}</label>
@@ -118,7 +119,8 @@
               <div class="pt-6" id="filter-section-mobile-1">
                 <div class="space-y-6">
                   <div class="flex items-center" *ngFor="let brand of brands">
-                    <input id="filter-mobile-category-0" name="category[]" [value]="brand.name" type="checkbox" (click)="onCheckChange($event)"
+                    <input id="filter-mobile-category-0" name="category[]" [value]="brand.name" type="checkbox"
+                      (click)="onCheckChange($event)"
                       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
                     <label for="filter-mobile-category-0"
                       class="ml-3 min-w-0 flex-1 text-gray-500">{{brand.name}}</label>
@@ -133,11 +135,29 @@
     </div>
 
     <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
+      <div class="flex flex-col items-baseline justify-between md:flex-row border-b border-gray-200 pb-6 pt-24">
         <h1 class="text-lg sm:text-lg md:text-4xl lg:text-4xl font-bold tracking-tight text-gray-900">New Arrivals</h1>
 
-        <div class="flex items-center">
-          <div class="relative inline-block text-left">
+        <div class="flex items-center mt-4 md:mt-0">
+
+          <form class="container-search" [formGroup]="searchForm">
+            <label for="default-search"
+              class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                </svg>
+              </div>
+              <input type="search" id="default-search" formControlName="search"
+                class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500  dark:placeholder-gray-400 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Search Products..." required>
+              </div>
+          </form>
+
+          <div class="relative inline-block text-left ml-5 sm:ml-7">
             <div>
               <button type="button" (click)="isDropdownVisible = !isDropdownVisible"
                 class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
@@ -300,19 +320,26 @@
           <!-- Product grid -->
           <div class="lg:col-span-3">
             <!-- Your content -->
-            <app-product-list [sortType]="sortType" [categories]="categoriesSelected" [brands]="brandsSelected" (recalculateListProduct)="onRecalculateListProduct($event)"></app-product-list>
+            <app-product-list [sortType]="sortType" [categories]="categoriesSelected" [brands]="brandsSelected" [searchValue]="searchValue"
+              (recalculateListProduct)="onRecalculateListProduct($event)"></app-product-list>
             <div class="flex justify-center">
               <!-- Previous Button -->
-              <a href="#" *ngIf="totalPages >= currentPage + 1" class="flex items-center justify-center px-4 h-10 mr-3 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                <svg class="w-3.5 h-3.5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"/>
+              <a href="#" *ngIf="totalPages >= currentPage + 1"
+                class="flex items-center justify-center px-4 h-10 mr-3 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                <svg class="w-3.5 h-3.5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 14 10">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13 5H1m0 0 4 4M1 5l4-4" />
                 </svg>
                 Previous
               </a>
-              <a href="#" *ngIf="totalPages > currentPage" class="flex items-center justify-center px-4 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+              <a href="#" *ngIf="totalPages > currentPage"
+                class="flex items-center justify-center px-4 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                 Next
-                <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 14 10">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M1 5h12m0 0L9 1m4 4L9 9" />
                 </svg>
               </a>
             </div>
@@ -325,5 +352,5 @@
     </main>
   </div>
 
-<app-loader *ngIf="isLoading"></app-loader>
+  <app-loader *ngIf="isLoading"></app-loader>
 </div>

@@ -18,6 +18,10 @@ export class CategoryFilterComponent implements OnInit {
   // Create a FormGroup to manage the dynamic checkboxes
   userForm!: FormGroup;
 
+  searchForm = this.fb.group({
+    search: ['']
+  });
+
   categories: Category[] = [];
   // Is the category that user select
   categoriesSelected: string[] = [];
@@ -30,6 +34,7 @@ export class CategoryFilterComponent implements OnInit {
   isLoading = true;
 
   sortType = '';
+  searchValue: string | null = "";
 
 
   constructor(private fb: FormBuilder) { }
@@ -85,6 +90,10 @@ export class CategoryFilterComponent implements OnInit {
       categories: this.buildCheckboxes(this.categories),
       // Create a FormArray for the brands checkboxes
       brands: this.buildCheckboxes(this.brands)
+    });
+
+    this.searchForm.valueChanges.subscribe(value => {
+      this.searchValue = value.search ? value.search : null;
     });
   }
 

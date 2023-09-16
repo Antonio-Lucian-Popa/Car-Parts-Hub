@@ -19,6 +19,10 @@ export class ProductListComponent implements OnInit, OnChanges {
     this.sortItems(value);
   }
 
+  @Input() set searchValue(value: string | null) {
+    this.searchProduct(value);
+  }
+
   @Output() recalculateListProduct = new EventEmitter();
 
   // @Input() brands: Brand[] = [];
@@ -27,6 +31,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   brand: string[] = [];
 
   productList: Product[] = [];
+  filteredProductList: Product[] = [];
 
   page = 0;
   size = 10;
@@ -36,12 +41,12 @@ export class ProductListComponent implements OnInit, OnChanges {
   constructor(private productService: ProductService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes['sortType']);
+    console.log(changes);
     if (changes['brands'] && changes['brands'].currentValue.length > 0 || changes['categories'] && changes['categories'].currentValue.length > 0) {
       this.categories = changes['categories'].currentValue;
       this.brands = changes['brands'].currentValue;
       this.findProductsByCategory();
-    } else if(changes['sortType'].currentValue === "") {
+    } else if((changes['sortType'] && changes['sortType'].currentValue === "") || (changes['searchValue'] && changes['searchValue'].currentValue === "")) {
       this.findAllProducts();
     }
   }
@@ -54,6 +59,7 @@ export class ProductListComponent implements OnInit, OnChanges {
     console.log(this.category, this.brand);
     this.productService.findAllProducts(this.page, this.size).subscribe(response => {
       this.productList = response.products;
+      this.filteredProductList = response.products;
       this.page = response.totalPages > response.currentPage ? response.currentPage + 1 : response.currentPage;
       this.totalPages = response.totalPages;
       this.recalculateListProduct.emit({
@@ -66,6 +72,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   findProductsByCategory() {
     this.productService.findAllProductsByCategory(this.page, this.size, this.categories, this.brands).subscribe(response => {
       this.productList = response.products;
+      this.filteredProductList = response.products;
       this.page = response.totalPages > response.currentPage ? response.currentPage + 1 : response.currentPage;
       this.totalPages = response.totalPages;
       this.recalculateListProduct.emit({
@@ -79,25 +86,34 @@ export class ProductListComponent implements OnInit, OnChanges {
     console.log(sortType)
     switch (sortType) {
       case 'new':
-        this.productList.sort((a, b) => {
+        this.filteredProductList.sort((a, b) => {
           return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         });
         break;
       case 'lowPrice':
-        this.productList.sort((a, b) => {
+        this.filteredProductList.sort((a, b) => {
           return a.price - b.price;
         });
         break;
       case 'highPrice':
-        this.productList.sort((a, b) => {
+        this.filteredProductList.sort((a, b) => {
           return b.price - a.price;
         });
         break;
       default:
-        this.productList.sort((a, b) => {
+        this.filteredProductList.sort((a, b) => {
           return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         });
         break;
+    }
+  }
+
+  searchProduct(searchValue: string | null) {
+    console.log(searchValue)
+    if(searchValue !== "" && searchValue !== null) {
+      this.filteredProductList = this.productList.filter(product => product.title.toLowerCase().includes(searchValue.toLowerCase()));
+    } else {
+      this.filteredProductList = this.productList;
     }
   }
 
